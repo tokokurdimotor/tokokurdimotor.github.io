@@ -388,10 +388,33 @@ function wireMenu() {
   const btn = document.getElementById('hamburger');
   const links = document.getElementById('navLinks');
   if (!btn || !links) return;
-  btn.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
+
+  const setOpen = (open) => {
+    links.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  btn.addEventListener('click', () => setOpen(!links.classList.contains('open')));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && links.classList.contains('open')) setOpen(false);
   });
+
+  document.addEventListener('click', (e) => {
+    if (!links.classList.contains('open')) return;
+    if (links.contains(e.target) || btn.contains(e.target)) return;
+    setOpen(false);
+  });
+}
+
+// Header gains a solid background + shadow once the page scrolls a bit
+function wireHeaderScroll() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 // GA4 helper: safe event sender
@@ -469,6 +492,7 @@ function init() {
   wireWhatsAppButtons();
   wireContactForm();
   wireMenu();
+  wireHeaderScroll();
   wireGlobalTracking();
   wireLangToggle();
   applyI18n(getLang());
