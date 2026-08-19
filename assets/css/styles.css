@@ -97,6 +97,20 @@ a { color: inherit; text-decoration: none; }
 .hero-card { position: relative; background: radial-gradient(120% 120% at 0% 0%, #1c2530 0%, #121821 100%); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-lg); transition: transform .35s var(--ease); }
 .hero-card:hover { transform: translateY(-4px); }
 .hero-card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(226,64,46,0.5), rgba(47,155,240,0.35), transparent 60%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+
+/* Border Glow: slow rotating light chasing the card edge (React Bits-inspired, ported to CSS) */
+@property --glow-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.hero-card::after {
+  content: '';
+  position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+  background: conic-gradient(from var(--glow-angle), transparent 0deg, transparent 300deg, var(--accent-2) 335deg, #fff 350deg, var(--primary-2) 5deg, transparent 40deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+  animation: glow-spin 4.5s linear infinite;
+}
+@keyframes glow-spin { to { --glow-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .hero-card::after { animation: none; display: none; } }
 .hero-card h3 { margin: 0 0 6px; }
 .store-hours { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border); color: var(--muted); }
 
@@ -180,6 +194,18 @@ a { color: inherit; text-decoration: none; }
 .map-section { margin-top: 16px; }
 .map-embed { margin-top: 10px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .map-embed iframe { width: 100%; height: 320px; border: 0; display: block; }
+
+/* Click Spark: tiny burst of particles on WhatsApp/CTA button clicks (React Bits-inspired, ported to vanilla JS) */
+.click-spark {
+  position: fixed; top: 0; left: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px;
+  border-radius: 50%; pointer-events: none; z-index: 9999;
+  transform: translate(var(--x), var(--y)) rotate(var(--spark-angle)) translateX(0);
+  animation: spark-fly .55s cubic-bezier(.2,.8,.3,1) forwards;
+}
+@keyframes spark-fly {
+  to { transform: translate(var(--x), var(--y)) rotate(var(--spark-angle)) translateX(30px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .click-spark { display: none; } }
 
 /* Scroll reveal (progressive enhancement, see assets/js/reveal.js) */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
