@@ -1,8 +1,8 @@
 // Basic site config - edit these to customize your store info
 const SITE = {
   name: "TOKO KURDI MOTOR",
-  phoneIntl: "6287817133172", // ganti ke nomor WhatsApp (format internasional, tanpa +)
-  phoneDisplay: "+62 878-1713-3172", // teks yang ditampilkan
+  phoneIntl: "6285731044137", // ganti ke nomor WhatsApp (format internasional, tanpa +)
+  phoneDisplay: "+62 857-3104-4137", // teks yang ditampilkan
   address: "Jl. Raya Babadan, Karangwuni, Demangharjo, Kec. Warureja, Kabupaten Tegal, Jawa Tengah 52183",
   hours: "Buka 24 jam",
   mapsQuery: "Jl. Raya Babadan, Karangwuni, Demangharjo, Kec. Warureja, Kabupaten Tegal, Jawa Tengah 52183", // dipakai untuk embed peta
@@ -41,7 +41,7 @@ const translations = {
     "hero.title": "Sparepart Mobil & Bengkel Profesional",
     "hero.subtitle": "Satu tempat untuk onderdil berkualitas dan servis mobil tepercaya.",
     "hero.cta_primary": "Chat WhatsApp",
-    "hero.cta_secondary": "Lihat Layanan",
+    "hero.cta_secondary": "Lihat Galeri",
     "hero.points.genuine": "Pilihan onderdil original & aftermarket terkurasi",
     "hero.points.warranty": "Garansi servis & aftersales jelas",
     "hero.points.experienced": "Mekanik berpengalaman & peralatan modern",
@@ -150,7 +150,7 @@ const translations = {
     "hero.title": "Professional Auto Parts & Workshop",
     "hero.subtitle": "One place for quality parts and trusted car service.",
     "hero.cta_primary": "Chat on WhatsApp",
-    "hero.cta_secondary": "View Services",
+    "hero.cta_secondary": "View Gallery",
     "hero.points.genuine": "Curated genuine & aftermarket parts",
     "hero.points.warranty": "Clear service warranty & aftersales",
     "hero.points.experienced": "Experienced mechanics & modern tools",
