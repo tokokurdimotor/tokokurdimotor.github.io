@@ -2,6 +2,7 @@
 :root {
   --primary: #e2402e; /* Ubah sesuai warna brand */
   --primary-2: #ff7847;
+  --danger: #ff5a5a;
   --accent: #2f9bf0;
   --accent-2: #6ee7ff;
   --bg: #0a0c10;
@@ -185,6 +186,9 @@ a { color: inherit; text-decoration: none; }
 .form label { display: grid; gap: 6px; }
 .form input, .form textarea { width: 100%; padding: 10px 12px; border-radius: 10px; background: #0f151d; border: 1px solid var(--border); color: var(--text); transition: border-color .2s ease, box-shadow .2s ease; }
 .form input:focus, .form textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47,155,240,0.15); }
+.form input.invalid, .form textarea.invalid { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255,90,90,0.15); }
+.form-error { color: var(--danger); font-size: .85rem; margin: -4px 0 4px; }
+.form-error[hidden] { display: none; }
 
 /* Gallery */
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }

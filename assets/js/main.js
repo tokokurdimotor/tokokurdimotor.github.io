@@ -133,6 +133,7 @@ const translations = {
     "contact.form.message": "Pesan",
     "contact.form.submit": "Kirim via WhatsApp",
     "contact.form.help": "Form ini akan membuka WhatsApp dengan pesan otomatis.",
+    "contact.form.error": "Lengkapi semua kolom yang wajib diisi.",
     "contact.form.name_ph": "Nama Anda",
     "contact.form.phone_ph": "08xxxxxxxxxx",
     "contact.form.message_ph": "Tulis kebutuhan Anda",
@@ -242,6 +243,7 @@ const translations = {
     "contact.form.message": "Message",
     "contact.form.submit": "Send via WhatsApp",
     "contact.form.help": "This form opens WhatsApp with a pre-filled message.",
+    "contact.form.error": "Please fill in all required fields.",
     "contact.form.name_ph": "Your name",
     "contact.form.phone_ph": "08xxxxxxxxxx",
     "contact.form.message_ph": "Type your request",
@@ -346,12 +348,37 @@ function applyLogo() {
 function wireContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
+  const errorEl = document.getElementById('formError');
+  const fields = [document.getElementById('name'), document.getElementById('phone'), document.getElementById('message')];
+
+  const clearError = () => {
+    if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
+    fields.forEach(f => f.classList.remove('invalid'));
+  };
+  fields.forEach(f => f.addEventListener('input', clearError));
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const message = document.getElementById('message').value.trim();
-    if (!name || !phone || !message) { alert('Lengkapi semua kolom.'); return; }
+    const missing = [];
+    if (!name) missing.push(document.getElementById('name'));
+    if (!phone) missing.push(document.getElementById('phone'));
+    if (!message) missing.push(document.getElementById('message'));
+
+    if (missing.length) {
+      fields.forEach(f => f.classList.remove('invalid'));
+      missing.forEach(f => f.classList.add('invalid'));
+      if (errorEl) {
+        const key = 'contact.form.error';
+        errorEl.textContent = (translations[getLang()] && translations[getLang()][key]) || 'Lengkapi semua kolom.';
+        errorEl.hidden = false;
+      }
+      missing[0].focus();
+      return;
+    }
+    clearError();
     const text = `Halo ${SITE.name}.\nNama: ${name}\nNo: ${phone}\nPesan: ${message}`;
     window.open(buildWaLink(text), '_blank');
   });
