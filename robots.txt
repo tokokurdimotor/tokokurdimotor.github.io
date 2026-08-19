@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maulanarifai.github.io/TOKO-KURDI-MOTOR/sitemap.xml
+Sitemap: https://tokokurdimotor.github.io/sitemap.xml
 
