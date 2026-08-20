@@ -12,6 +12,26 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+    <div id="introSplash" class="intro-splash" role="presentation">
+      <div class="intro-mark">
+        <img src="assets/img/logo.png" alt="" class="intro-logo" />
+        <div class="intro-name">TOKO KURDI MOTOR</div>
+        <div class="intro-bar"><span></span></div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        try {
+          var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (sessionStorage.getItem('kmIntroShown') || reduced) {
+            document.getElementById('introSplash').style.display = 'none';
+          } else {
+            sessionStorage.setItem('kmIntroShown', '1');
+            document.documentElement.classList.add('intro-lock');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <header class="site-header">
       <div class="container nav">
         <a class="brand" href="index.html" aria-label="TOKO KURDI MOTOR">

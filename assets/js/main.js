@@ -412,6 +412,19 @@ function wireMenu() {
   });
 }
 
+// First-visit intro splash: dismiss after a short delay, or immediately on click
+function wireIntroSplash() {
+  const el = document.getElementById('introSplash');
+  if (!el || getComputedStyle(el).display === 'none') return;
+  const finish = () => {
+    el.classList.add('intro-hide');
+    document.documentElement.classList.remove('intro-lock');
+    setTimeout(() => el.remove(), 550);
+  };
+  const timer = setTimeout(finish, 1500);
+  el.addEventListener('click', () => { clearTimeout(timer); finish(); });
+}
+
 // Header gains a solid background + shadow once the page scrolls a bit
 function wireHeaderScroll() {
   const header = document.querySelector('.site-header');
@@ -499,6 +512,7 @@ function init() {
   wireContactForm();
   wireMenu();
   wireHeaderScroll();
+  wireIntroSplash();
   wireGlobalTracking();
   wireLangToggle();
   applyI18n(getLang());
