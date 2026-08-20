@@ -170,7 +170,11 @@ a { color: inherit; text-decoration: none; }
 .footer-links a { transition: color .2s ease; }
 .footer-links a:hover { color: var(--text); }
 .site-footer { border-top: 1px solid var(--border); margin-top: 20px; background: linear-gradient(180deg, transparent, rgba(226,64,46,0.03)); }
-.footer-bottom { padding: 14px 0; border-top: 1px solid var(--border); color: var(--muted); }
+.footer-bottom { padding: 14px 0; border-top: 1px solid var(--border); color: var(--muted); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; border-radius: 8px; background: #10161f; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.footer-social a:hover { border-color: #2a333d; background: #141a21; transform: translateY(-2px); }
+.footer-social .icon-tiktok { width: 16px; height: 16px; background-color: var(--text); -webkit-mask: url('../icons/tiktok-logo.svg') center/contain no-repeat; mask: url('../icons/tiktok-logo.svg') center/contain no-repeat; }
 .muted { color: var(--muted); }
 
 /* Page */

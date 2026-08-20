@@ -38,8 +38,8 @@ const translations = {
     "nav.contact": "Kontak",
     "nav.whatsapp": "WhatsApp",
 
-    "hero.title": "Sparepart Mobil & Bengkel Profesional",
-    "hero.subtitle": "Satu tempat untuk onderdil berkualitas dan servis mobil tepercaya.",
+    "hero.title": "TOKO KURDI MOTOR",
+    "hero.subtitle": "Bengkel Mobil & Sparepart Terpercaya di Tegal — Buka 24 Jam Sejak 2008.",
     "hero.cta_primary": "Chat WhatsApp",
     "hero.cta_secondary": "Lihat Galeri",
     "hero.points.genuine": "Pilihan onderdil original & aftermarket terkurasi",
@@ -150,8 +150,8 @@ const translations = {
     "nav.contact": "Contact",
     "nav.whatsapp": "WhatsApp",
 
-    "hero.title": "Professional Auto Parts & Workshop",
-    "hero.subtitle": "One place for quality parts and trusted car service.",
+    "hero.title": "TOKO KURDI MOTOR",
+    "hero.subtitle": "Trusted Car Workshop & Auto Parts in Tegal — Open 24 Hours Since 2008.",
     "hero.cta_primary": "Chat on WhatsApp",
     "hero.cta_secondary": "View Gallery",
     "hero.points.genuine": "Curated genuine & aftermarket parts",
@@ -440,6 +440,8 @@ function wireGlobalTracking(){
       track('click_phone', { label: id || txt || 'tel', href });
     } else if (id === 'mapBtn') {
       track('click_map', { label: 'mapBtn', href });
+    } else if (/^https?:\/\/(www\.)?tiktok\.com\//i.test(href)) {
+      track('click_tiktok', { label: id || txt || 'tiktok', href });
     }
   }, true);
 }
