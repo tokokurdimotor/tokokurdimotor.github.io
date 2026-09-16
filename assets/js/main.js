@@ -257,14 +257,14 @@ const translations = {
 // Gallery config: add your images here
 // Example item: { src: 'assets/img/gallery/bengkel-1.jpg', alt: { id: 'Servis rem', en: 'Brake service' } }
 const GALLERY = [
-  { src: 'assets/img/IMG_20250624_115846.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250824_090239.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250824_090334.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250824_090344.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250825_224829.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250825_224944.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250825_225031.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
-  { src: 'assets/img/IMG_20250825_225120.jpg', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250624_115846.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250824_090239.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250824_090334.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250824_090344.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250825_224829.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250825_224944.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250825_225031.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
+  { src: 'assets/img/IMG_20250825_225120.webp', alt: { id: 'Dokumentasi bengkel', en: 'Workshop documentation' } },
 ];
 
 function setYear() {
@@ -357,7 +357,11 @@ function wireContactForm() {
 
   const clearError = () => {
     if (errorEl) { errorEl.hidden = true; errorEl.textContent = ''; }
-    fields.forEach(f => f.classList.remove('invalid'));
+    fields.forEach(f => {
+      f.classList.remove('invalid');
+      f.removeAttribute('aria-invalid');
+      f.removeAttribute('aria-describedby');
+    });
   };
   fields.forEach(f => f.addEventListener('input', clearError));
 
@@ -373,7 +377,11 @@ function wireContactForm() {
 
     if (missing.length) {
       fields.forEach(f => f.classList.remove('invalid'));
-      missing.forEach(f => f.classList.add('invalid'));
+      missing.forEach(f => {
+        f.classList.add('invalid');
+        f.setAttribute('aria-invalid', 'true');
+        f.setAttribute('aria-describedby', 'formError');
+      });
       if (errorEl) {
         const key = 'contact.form.error';
         errorEl.textContent = (translations[getLang()] && translations[getLang()][key]) || 'Lengkapi semua kolom.';
@@ -384,7 +392,7 @@ function wireContactForm() {
     }
     clearError();
     const text = `Halo ${SITE.name}.\nNama: ${name}\nNo: ${phone}\nPesan: ${message}`;
-    window.open(buildWaLink(text), '_blank');
+    window.open(buildWaLink(text), '_blank', 'noopener,noreferrer');
   });
 }
 
@@ -400,9 +408,18 @@ function wireMenu() {
   };
 
   btn.addEventListener('click', () => setOpen(!links.classList.contains('open')));
+  links.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setOpen(false);
+  });
+  window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && links.classList.contains('open')) setOpen(false);
+    if (e.key === 'Escape' && links.classList.contains('open')) {
+      setOpen(false);
+      btn.focus();
+    }
   });
 
   document.addEventListener('click', (e) => {
@@ -480,14 +497,18 @@ function applyI18n(lang) {
   const langBtn = document.getElementById('langToggle');
   if (langBtn) langBtn.textContent = (lang === 'id') ? 'ID' : 'EN';
   document.documentElement.lang = lang;
+  document.querySelectorAll('#hoursText, #hoursTextFoot').forEach(el => {
+    el.textContent = lang === 'en' ? 'Open 24 hours' : SITE.hours;
+  });
 }
 
 function getLang() {
-  return localStorage.getItem('lang') || 'id';
+  try { return localStorage.getItem('lang') || 'id'; }
+  catch (_) { return document.documentElement.lang || 'id'; }
 }
 
 function setLang(lang) {
-  localStorage.setItem('lang', lang);
+  try { localStorage.setItem('lang', lang); } catch (_) {}
   applyI18n(lang);
   renderGallery();
 }
@@ -532,6 +553,8 @@ function renderGallery() {
     const img = document.createElement('img');
     img.src = item.src;
     img.loading = 'lazy';
+    img.width = 1600;
+    img.height = 1200;
     if (item.alt) {
       img.alt = typeof item.alt === 'string' ? item.alt : (item.alt[lang] || item.alt.id || 'Galeri');
     } else {

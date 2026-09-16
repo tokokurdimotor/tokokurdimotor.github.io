@@ -1,85 +1,216 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TOKO KURDI MOTOR &mdash; Tentang</title>
-    <meta name="description" content="Tentang Toko Kurdi Motor: fokus pada kualitas, kejujuran, dan layanan profesional." />
+    <meta
+      name="description"
+      content="Tentang Toko Kurdi Motor: fokus pada kualitas, kejujuran, dan layanan profesional."
+    />
     <meta property="og:title" content="TOKO KURDI MOTOR - Tentang" />
-    <meta property="og:description" content="Tentang Toko Kurdi Motor: fokus pada kualitas, kejujuran, dan layanan profesional." />
+    <meta
+      property="og:description"
+      content="Tentang Toko Kurdi Motor: fokus pada kualitas, kejujuran, dan layanan profesional."
+    />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://tokokurdimotor.github.io/about.html" />
-    <meta property="og:image" content="https://tokokurdimotor.github.io/assets/img/logo.png" />
+    <meta
+      property="og:url"
+      content="https://tokokurdimotor.github.io/about.html"
+    />
+    <meta
+      property="og:image"
+      content="https://tokokurdimotor.github.io/assets/img/logo.png"
+    />
     <link rel="canonical" href="https://tokokurdimotor.github.io/about.html" />
     <link rel="icon" href="assets/img/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/modern.css?v=20260916" />
+    <meta name="theme-color" content="#151918" />
   </head>
   <body>
-    <div id="introSplash" class="intro-splash" role="presentation">
-      <div class="intro-mark">
-        <img src="assets/img/logo.png" alt="" class="intro-logo" />
-        <div class="intro-name">TOKO KURDI MOTOR</div>
-        <div class="intro-bar"><span></span></div>
+    <a class="skip-link" href="#main"
+      ><span class="" data-i18n="modern.skip">Langsung ke konten</span></a
+    >
+    <div class="topbar">
+      <div class="container">
+        <span
+          ><svg
+            class="ui-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z" />
+            <circle cx="12" cy="10" r="2.5" /></svg
+          ><span class="" data-i18n="modern.area"
+            >Warureja, Tegal · Jawa Tengah</span
+          ></span
+        ><span
+          ><i class="status-dot"></i
+          ><span class="" data-i18n="modern.open">Buka 24 jam, setiap hari</span
+          ><b> / </b
+          ><span class="" data-i18n="modern.since"
+            >Melayani sejak 2008</span
+          ></span
+        >
       </div>
     </div>
-    <script>
-      (function () {
-        try {
-          var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (sessionStorage.getItem('kmIntroShown') || reduced) {
-            document.getElementById('introSplash').style.display = 'none';
-          } else {
-            sessionStorage.setItem('kmIntroShown', '1');
-            document.documentElement.classList.add('intro-lock');
-          }
-        } catch (e) {}
-      })();
-    </script>
     <header class="site-header">
       <div class="container nav">
-        <a class="brand" href="index.html" aria-label="TOKO KURDI MOTOR">
-          <img src="assets/img/logo.png" alt="Logo TOKO KURDI MOTOR" class="logo" />
-          <span class="brand-text" data-i18n="brand.name">Toko Kurdi Motor</span>
-        </a>
-        <nav class="menu" aria-label="Primary Navigation">
-          <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false"><span class="hamburger-bar"></span><span class="hamburger-bar"></span><span class="hamburger-bar"></span></button>
+        <a
+          class="brand"
+          href="index.html"
+          aria-label="Toko Kurdi Motor — Beranda"
+          ><img
+            class="logo"
+            src="assets/img/logo.png"
+            alt=""
+            width="44"
+            height="44"
+          /><span class="brand-lockup"
+            ><strong>KURDI MOTOR<span class="brand-dot">.</span></strong
+            ><small>AUTO PARTS &amp; SERVICE</small></span
+          ></a
+        >
+        <nav class="menu" aria-label="Navigasi utama">
+          <button
+            class="hamburger"
+            id="hamburger"
+            aria-label="Buka menu / Open menu"
+            aria-controls="navLinks"
+            aria-expanded="false"
+          >
+            <span class="hamburger-bar"></span
+            ><span class="hamburger-bar"></span
+            ><span class="hamburger-bar"></span>
+          </button>
           <ul id="navLinks">
             <li><a href="index.html" data-i18n="nav.home">Beranda</a></li>
+            <li>
+              <a href="index.html#layanan" data-i18n="nav.services">Layanan</a>
+            </li>
             <li><a href="gallery.html" data-i18n="nav.gallery">Galeri</a></li>
-            <li><a class="active" href="about.html" data-i18n="nav.about">Tentang</a></li>
+            <li>
+              <a
+                href="about.html"
+                class="active"
+                aria-current="page"
+                data-i18n="nav.about"
+                >Tentang</a
+              >
+            </li>
             <li><a href="contact.html" data-i18n="nav.contact">Kontak</a></li>
           </ul>
           <div class="nav-cta">
-            <a class="btn btn-primary" id="waTop" href="#" target="_blank" rel="noopener" data-i18n="nav.whatsapp">WhatsApp</a>
-            <button id="langToggle" class="btn btn-ghost" aria-label="Switch Language">ID</button>
+            <button
+              id="langToggle"
+              class="btn btn-ghost"
+              aria-label="Ganti bahasa / Switch language"
+            >
+              ID</button
+            ><a
+              class="btn btn-primary"
+              id="waTop"
+              href="https://wa.me/6285731044137"
+              target="_blank"
+              rel="noopener"
+              ><svg
+                class="ui-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 11.5a9 9 0 0 1-13.4 7.8L3 21l1.7-4.6A9 9 0 1 1 21 11.5Z"
+                />
+                <path d="M8 9c1 4 3 6 7 7l1-3-3-1-1 1-2-2 1-1-1-3Z" /></svg
+              ><span>WhatsApp</span
+              ><svg
+                class="ui-icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+            ></a>
           </div>
         </nav>
       </div>
     </header>
-
-    <main class="page">
+    <main class="page" id="main">
       <section class="page-hero">
         <div class="container">
           <h1 data-i18n="about.title">Tentang Toko Kurdi Motor</h1>
-          <p class="lead" data-i18n="about.subtitle">Sejak awal, fokus kami adalah keamanan, kejujuran, dan kualitas.</p>
+          <p class="lead" data-i18n="about.subtitle">
+            Sejak awal, fokus kami adalah keamanan, kejujuran, dan kualitas.
+          </p>
         </div>
       </section>
 
       <section class="container grid-2 gap-xl">
         <div>
-          <h3 data-i18n="about.story.title">Cerita Kami</h3>
-          <p data-i18n="about.story.p1">Toko Kurdi Motor dirintis oleh Pak Kurdi sejak tahun 2008, mulanya hanya usaha tambal ban untuk mobil dan truk. Modalnya sederhana: ketekunan, dan kepercayaan pelanggan yang tumbuh dari mulut ke mulut.</p>
-          <p data-i18n="about.story.p2">Dari tahun ke tahun, usaha ini terus berkembang — dari sekadar tambal ban menjadi bengkel mobil lengkap yang buka 24 jam, melayani servis dan onderdil untuk kebutuhan pelanggan kapan pun dibutuhkan.</p>
-          <p data-i18n="about.story.p3">Bagi kami, kepercayaan dibangun dari hal-hal kecil: menjelaskan kerusakan apa adanya, tidak menyarankan penggantian part yang sebenarnya belum perlu, dan memberi estimasi biaya di awal sebelum pekerjaan dimulai. Prinsip inilah yang membuat banyak pelanggan terus kembali selama bertahun-tahun.</p>
-          <p data-i18n="about.story.p4">Hari ini, usaha yang dirintis Pak Kurdi diteruskan oleh putranya, Maulana Rifai, dengan semangat yang sama: kerja rapi, harga jelas, dan pelanggan pulang dengan mobil yang benar-benar beres.</p>
+          <img
+            class="about-photo"
+            src="assets/img/IMG_20250824_090334.webp"
+            alt="Toko Kurdi Motor"
+            width="1600"
+            height="1200"
+          />
+          <h2 data-i18n="about.story.title">Cerita Kami</h2>
+          <p data-i18n="about.story.p1">
+            Toko Kurdi Motor dirintis oleh Pak Kurdi sejak tahun 2008, mulanya
+            hanya usaha tambal ban untuk mobil dan truk. Modalnya sederhana:
+            ketekunan, dan kepercayaan pelanggan yang tumbuh dari mulut ke
+            mulut.
+          </p>
+          <p data-i18n="about.story.p2">
+            Dari tahun ke tahun, usaha ini terus berkembang — dari sekadar
+            tambal ban menjadi bengkel mobil lengkap yang buka 24 jam, melayani
+            servis dan onderdil untuk kebutuhan pelanggan kapan pun dibutuhkan.
+          </p>
+          <p data-i18n="about.story.p3">
+            Bagi kami, kepercayaan dibangun dari hal-hal kecil: menjelaskan
+            kerusakan apa adanya, tidak menyarankan penggantian part yang
+            sebenarnya belum perlu, dan memberi estimasi biaya di awal sebelum
+            pekerjaan dimulai. Prinsip inilah yang membuat banyak pelanggan
+            terus kembali selama bertahun-tahun.
+          </p>
+          <p data-i18n="about.story.p4">
+            Hari ini, usaha yang dirintis Pak Kurdi diteruskan oleh putranya,
+            Maulana Rifai, dengan semangat yang sama: kerja rapi, harga jelas,
+            dan pelanggan pulang dengan mobil yang benar-benar beres.
+          </p>
         </div>
         <div class="card">
-          <h3 data-i18n="about.values.title">Nilai Utama</h3>
+          <h2 data-i18n="about.values.title">Nilai Utama</h2>
           <ul class="checklist">
-            <li data-i18n="about.values.quality">Kualitas produk & pekerjaan</li>
+            <li data-i18n="about.values.quality">
+              Kualitas produk & pekerjaan
+            </li>
             <li data-i18n="about.values.honesty">Kejujuran & transparansi</li>
             <li data-i18n="about.values.speed">Kecepatan & ketepatan</li>
             <li data-i18n="about.values.care">Perhatian pada detail</li>
@@ -88,25 +219,119 @@
       </section>
 
       <section class="container map-section">
-        <h3 data-i18n="about.location.title">Lokasi Kami</h3>
-        <p id="addressText" class="muted">Alamat toko di sini</p>
+        <h2 data-i18n="about.location.title">Lokasi Kami</h2>
+        <p id="addressText" class="muted">
+          Jl. Raya Babadan, Demangharjo, Warureja, Tegal
+        </p>
         <div class="map-embed">
-          <iframe id="mapFrame" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Peta lokasi"></iframe>
+          <iframe
+            id="mapFrame"
+            title="Lokasi Toko Kurdi Motor"
+            src="https://www.google.com/maps?q=Kurdi+Motor+Warureja+Tegal&amp;output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            aria-label="Peta lokasi"
+          ></iframe>
         </div>
       </section>
     </main>
-
     <footer class="site-footer">
-      <div class="container footer-bottom">
-        <p class="muted">&copy; <span id="yearNow"></span> TOKO KURDI MOTOR.</p>
-        <div class="footer-social">
-          <a href="https://www.tiktok.com/@toko.kurditegal" target="_blank" rel="noopener" aria-label="TikTok TOKO KURDI MOTOR"><span class="icon-tiktok" aria-hidden="true"></span></a>
+      <div class="container footer-grid">
+        <div>
+          <a
+            class="brand"
+            href="index.html"
+            aria-label="Toko Kurdi Motor — Beranda"
+            ><img
+              class="logo"
+              src="assets/img/logo.png"
+              alt=""
+              width="44"
+              height="44"
+            /><span class="brand-lockup"
+              ><strong>KURDI MOTOR<span class="brand-dot">.</span></strong
+              ><small>AUTO PARTS &amp; SERVICE</small></span
+            ></a
+          >
+          <p class="footer-desc" data-i18n="modern.footer">
+            Teman perjalanan Anda. Dari perawatan rutin hingga kebutuhan
+            sparepart, kami siap membantu.
+          </p>
+        </div>
+        <div>
+          <h3 data-i18n="footer.links.title">Jelajahi</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="index.html#layanan" data-i18n="nav.services">Layanan</a>
+            </li>
+            <li><a href="gallery.html" data-i18n="nav.gallery">Galeri</a></li>
+            <li><a href="about.html" data-i18n="nav.about">Tentang</a></li>
+            <li><a href="contact.html" data-i18n="nav.contact">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-i18n="footer.contact.title">Kunjungi kami</h3>
+          <p>
+            Jl. Raya Babadan, Karangwuni, Demangharjo, Warureja, Kabupaten
+            Tegal, Jawa Tengah 52183
+          </p>
+          <a
+            class="footer-phone"
+            href="https://wa.me/6285731044137"
+            target="_blank"
+            rel="noopener"
+            >+62 857-3104-4137
+            <svg
+              class="ui-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+          ></a>
         </div>
       </div>
+      <div class="container footer-bottom">
+        <p>
+          © <span id="yearNow">2026</span> Toko Kurdi Motor.
+          <span data-i18n="footer.rights">Seluruh hak cipta.</span>
+        </p>
+        <a
+          href="https://www.tiktok.com/@toko.kurditegal"
+          target="_blank"
+          rel="noopener"
+          >TikTok ↗</a
+        >
+      </div>
     </footer>
-
+    <a
+      class="floating-wa"
+      href="https://wa.me/6285731044137"
+      target="_blank"
+      rel="noopener"
+      aria-label="Chat WhatsApp"
+      ><svg
+        class="ui-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 11.5a9 9 0 0 1-13.4 7.8L3 21l1.7-4.6A9 9 0 1 1 21 11.5Z" />
+        <path d="M8 9c1 4 3 6 7 7l1-3-3-1-1 1-2-2 1-1-1-3Z" /></svg
+    ></a>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/reveal.js"></script>
-    <script src="assets/js/spark.js"></script>
+    <script src="assets/js/modern.js"></script>
   </body>
-  </html>
+</html>

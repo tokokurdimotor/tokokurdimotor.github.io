@@ -24,6 +24,8 @@ jobs:
           for f in $(git ls-files "*.html"); do
             sed -E -i \
               -e "s|(assets/js/main.js)(\?v=[^\"']*)?|\1?v=${V}|g" \
+              -e "s|(assets/js/modern.js)(\?v=[^\"']*)?|\1?v=${V}|g" \
+              -e "s|(assets/css/modern.css)(\?v=[^\"']*)?|\1?v=${V}|g" \
               -e "s|(assets/js/products.js)(\?v=[^\"']*)?|\1?v=${V}|g" \
               -e "s|(assets/js/auto-image-match.js)(\?v=[^\"']*)?|\1?v=${V}|g" \
               -e "s|(assets/css/styles.css)(\?v=[^\"']*)?|\1?v=${V}|g" "$f"
