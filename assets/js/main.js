@@ -498,7 +498,7 @@ function applyI18n(lang) {
   if (langBtn) langBtn.textContent = (lang === 'id') ? 'ID' : 'EN';
   document.documentElement.lang = lang;
   document.querySelectorAll('#hoursText, #hoursTextFoot').forEach(el => {
-    el.textContent = lang === 'en' ? 'Open 24 hours' : SITE.hours;
+    el.textContent = lang === 'en' ? (SITE.hoursEn || 'Open 24 hours') : SITE.hours;
   });
 }
 
