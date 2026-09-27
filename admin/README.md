@@ -20,8 +20,9 @@ Tampilan login merupakan file statis yang dapat dibuka pengunjung. Otorisasi per
 - **Identitas & kontak:** nama, tulisan merek, tagline, nomor WhatsApp, alamat, jam buka, Google Maps, dan logo.
 - **Konten halaman:** judul/deskripsi pencarian, teks Indonesia dan Inggris, teks tambahan, dan foto beranda/tentang. Teks bersama berlaku pada beberapa halaman. Bagian ini mengubah isi, bukan struktur atau desain kode.
 - **Galeri foto:** tambah, ganti, ubah deskripsi, naikkan urutan, atau hapus dari galeri.
-- **Data produk:** cari, tambah, edit, atau hapus baris di `assets/data/products.csv`. Data awal berisi 2.590 produk. Beberapa ID lama sudah duplikat karena format angka spreadsheet; panel mempertahankannya tetapi menolak penambahan duplikat baru. Halaman publik saat ini menampilkan kategori, bukan katalog seluruh produk. Harga produk di panel tidak otomatis menjadi daftar harga di beranda.
 - **Tinjau & terbitkan:** periksa nilai sebelum/sesudah, kemudian tekan Terbitkan. Ini membuat satu commit atomik berisi data, HTML statis, dan gambar baru. GitHub Pages memperbarui website setelah build berhasil; tombol sukses berarti tersimpan di GitHub, bukan konfirmasi selesai tayang.
+
+Data barang dan harga sengaja tidak disimpan di repositori ini. Repositori website publik, sehingga setiap file di dalamnya dapat diunduh siapa saja. Stok dan harga dikonfirmasi melalui WhatsApp.
 
 Foto: PNG/JPG/WebP, maksimal 4 MB per file, 20 unggahan dalam satu penerbitan. Gunakan foto secukupnya agar situs ringan. Menghapus foto dari galeri tidak menghapus file atau riwayat GitHub.
 

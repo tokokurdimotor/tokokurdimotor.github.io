@@ -7,17 +7,13 @@ const root = path.resolve(__dirname, '..');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
 
 (async () => {
-  const { parseCSV, writeCSV, validate, differences } = await import(pathToFileURL(path.join(root, 'admin/model.js')));
+  const { validate, differences } = await import(pathToFileURL(path.join(root, 'admin/model.js')));
+  // The repository is public: any data file here can be downloaded, so product and price exports must stay out.
+  assert.deepEqual(fs.readdirSync(path.join(root, 'assets/data')).filter(f => /\.(csv|tsv|xlsx?)$/i.test(f)), [], 'product/price data must not be published');
   const source = JSON.parse(fs.readFileSync(path.join(root, 'assets/data/site-content.json'), 'utf8'));
-  const products = parseCSV(fs.readFileSync(path.join(root, 'assets/data/products.csv'), 'utf8'));
-  validate(source, products, products);
-  assert.equal(products.rows.length, 2590);
-  assert.deepEqual(parseCSV(writeCSV(products)), products);
-  const csv = { columns: ['id', 'name'], rows: [{ id: '1', name: 'Baut, "besar"\nbaru' }] };
-  assert.deepEqual(parseCSV(writeCSV(csv)), csv);
-  assert.throws(() => validate(source, { ...products, rows: [...products.rows, products.rows[0]] }, products), /duplikat/);
+  validate(source);
   const invalid = structuredClone(source); invalid.site.phoneIntl = 'javascript:alert(1)';
-  assert.throws(() => validate(invalid, products, products), /WhatsApp/);
+  assert.throws(() => validate(invalid), /WhatsApp/);
   assert.equal(differences(source, structuredClone(source)).length, 0);
   const browser = await chromium.launch({ headless: true, channel: 'msedge' });
   const page = await browser.newPage(); const errors = []; page.on('pageerror', e => errors.push(e.message));
@@ -57,7 +53,7 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
   assert.equal(await page.evaluate(() => JSON.stringify([localStorage, sessionStorage]).includes('TEST_TOKEN_ONLY')), false);
   for (const width of [375, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const tab of ['site', 'pages', 'gallery', 'products', 'review']) {
+    for (const tab of ['site', 'pages', 'gallery', 'review']) {
       await page.locator(`[data-tab="${tab}"]`).click();
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'overflow ' + tab + ' at ' + width);
     }
@@ -67,10 +63,7 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
   await page.locator('input[type="file"]').setInputFiles(path.join(root, 'assets/img/logo.png'));
   await page.waitForFunction(() => document.querySelector('#status').textContent.includes('Foto siap'));
   await page.route('**/assets/img/uploads/**', route => route.fulfill({ contentType: 'image/png', body: fs.readFileSync(path.join(root, 'assets/img/logo.png')) }));
-  await page.locator('[data-tab="products"]').click();
-  await page.getByLabel('Cari nama, merek, atau kode produk').fill('1120174');
-  await page.locator('.product-row summary').first().click();
-  await page.getByLabel('Harga rupiah', { exact: true }).first().fill('96000');
+  assert.equal(await page.locator('[data-tab="products"]').count(), 0);
   await page.locator('[data-tab="pages"]').click();
   await page.getByLabel('Cari teks pada halaman ini').fill('modern.hero.line1');
   const hero = page.locator('.photo-card').filter({ has: page.locator('.pill', { hasText: 'modern.hero.line1' }) });
@@ -86,9 +79,9 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
   await page.getByRole('button', { name: 'Terbitkan ke website', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('#status').textContent.includes('Berhasil disimpan'));
   assert.equal(published, 1); assert.equal(tree.base_tree, 'tree-original');
-  assert(tree.tree.every(entry => ['assets/data/site-content.json', 'assets/data/products.csv', 'index.html', 'about.html', 'gallery.html', 'contact.html', '404.html'].includes(entry.path) || /^assets\/img\/uploads\/[a-f0-9-]+\.png$/.test(entry.path)));
+  assert(tree.tree.every(entry => ['assets/data/site-content.json', 'index.html', 'about.html', 'gallery.html', 'contact.html', '404.html'].includes(entry.path) || /^assets\/img\/uploads\/[a-f0-9-]+\.png$/.test(entry.path)));
+  assert(!requests.some(r => /\.csv/i.test(r.endpoint)), 'panel must not read or write CSV data');
   assert.equal(blobs.filter(b => b.encoding === 'base64').length, 1);
-  assert(blobs.some(b => b.encoding === 'utf-8' && b.content.includes('"96000"')));
   const saved = JSON.parse(blobs.find(b => b.content.startsWith('{')).content); assert.equal(saved.site.name, 'KURDI MOTOR TEST');
   const home = blobs.find(b => b.content.includes('<title>') && b.content.includes('modern.hero.line1'));
   assert(home.content.includes('Servis terpercaya dari HP.'));
@@ -103,5 +96,5 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:4173';
   await page.goto(base + '/index.html'); await page.waitForFunction(() => document.querySelector('[data-i18n="modern.hero.line1"]').textContent === 'Servis terpercaya dari HP.');
   await page.locator('#langToggle').click(); assert.notEqual(await page.locator('[data-i18n="modern.hero.line1"]').textContent(), 'Servis terpercaya dari HP.');
   assert.deepEqual(errors, []); await browser.close();
-  console.log('PASS: CSV round-trip 2590 products, validation, denied/owner login, no token storage, 5 tabs at 3 widths, review, conflict protection, atomic publish, logout, and public rendering. GitHub writes mocked; no live content changed.');
+  console.log('PASS: no product/price data published, validation, denied/owner login, no token storage, 4 tabs at 3 widths, review, conflict protection, atomic publish, logout, and public rendering. GitHub writes mocked; no live content changed.');
 })().catch(error => { console.error(error); process.exit(1); });

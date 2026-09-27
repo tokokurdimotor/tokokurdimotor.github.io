@@ -1,12 +1,12 @@
-import { parseCSV, writeCSV, validate, differences, validImage } from './model.js';
+import { validate, differences } from './model.js';
 if (window.top !== window.self) { document.body.replaceChildren(); throw new Error('Buka panel langsung, bukan melalui sematan.'); }
 
 const OWNER = 'tokokurdimotor';
 const REPO = '/repos/' + OWNER + '/tokokurdimotor.github.io';
-const CONTENT = 'assets/data/site-content.json', PRODUCTS = 'assets/data/products.csv';
+const CONTENT = 'assets/data/site-content.json';
 const pageNames = { 'index.html': 'Beranda', 'about.html': 'Tentang toko', 'gallery.html': 'Galeri', 'contact.html': 'Kontak', '404.html': 'Halaman tidak ditemukan' };
 const $ = selector => document.querySelector(selector);
-let token = '', content, products, original, originalProducts, baseHead, baseTree, files = {}, uploads = new Map(), active = 'site', selectedPage = 'index.html', busy = false, pendingUploads = 0;
+let token = '', content, original, baseHead, baseTree, files = {}, uploads = new Map(), active = 'site', selectedPage = 'index.html', busy = false, pendingUploads = 0;
 const editor = $('#editor');
 function status(message, error = false) { $('#status').textContent = message; $('#status').classList.toggle('error', error); if (message) $('#status').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
 function element(tag, text, parent, attributes = {}) {
@@ -31,7 +31,7 @@ async function readFile(path, ref) {
   if (file.encoding !== 'base64') throw new Error('File terlalu besar untuk editor: ' + path);
   return { text: decode(file.content), sha: file.sha };
 }
-function dirty() { return !!content && (uploads.size > 0 || JSON.stringify(content) !== JSON.stringify(original) || writeCSV(products) !== writeCSV(originalProducts)); }
+function dirty() { return !!content && (uploads.size > 0 || JSON.stringify(content) !== JSON.stringify(original)); }
 function changed() { $('#dirty').textContent = dirty() ? 'Ada draf yang belum diterbitkan.' : 'Semua perubahan sudah tersimpan di GitHub.'; }
 function field(parent, label, value, onChange, options = {}) {
   const wrap = element('div', null, parent, { class: 'field' });
@@ -118,35 +118,10 @@ function renderGallery() {
   });
   button(editor, '+ Tambah foto', () => { content.gallery.push({ src: content.site.logo, alt: { id: 'Foto bengkel', en: 'Workshop photo' } }); changed(); render(); });
 }
-function renderProducts() {
-  element('h2', 'Data produk', editor);
-  element('p', 'Data ini tersimpan di daftar produk toko. Website saat ini menampilkan kategori sparepart dan konsultasi WhatsApp, belum menampilkan seluruh produk atau harga satu per satu.', editor, { class: 'notice' });
-  const search = field(editor, 'Cari nama, merek, atau kode produk', '', () => {});
-  element('p', products.rows.length + ' produk · maksimal 30 hasil ditampilkan. Cari untuk menemukan produk lainnya.', editor, { class: 'hint' });
-  const list = element('div', null, editor);
-  function rows() {
-    list.replaceChildren();
-    const term = search.value.toLowerCase();
-    const matches = products.rows.filter(row => [row.id, row.name_id, row.brand, row.sku].join(' ').toLowerCase().includes(term)).slice(0, 30);
-    if (!matches.length) element('p', 'Tidak ada produk yang cocok.', list);
-    for (const row of matches) {
-      const details = element('details', null, list, { class: 'product-row' });
-      const summary = element('summary', row.name_id + ' · Rp' + Number(row.price).toLocaleString('id-ID'), details);
-      const grid = element('div', null, details, { class: 'grid' });
-      const names = { id: 'ID unik', name_id: 'Nama Indonesia', name_en: 'Nama Inggris', brand: 'Merek', sku: 'Kode SKU', price: 'Harga rupiah', badge: 'Kategori / label', vehicles: 'Kendaraan', compat_id: 'Kecocokan Indonesia', compat_en: 'Kecocokan Inggris' };
-      for (const [key, label] of Object.entries(names)) field(grid, label, row[key], value => { row[key] = value; summary.textContent = row.name_id + ' · Rp' + Number(row.price).toLocaleString('id-ID'); }, { inputmode: key === 'price' ? 'numeric' : 'text' });
-      if (row.img) element('img', null, details, { src: imageURL(row.img), class: 'image', alt: row.name_id });
-      photo(details, 'Foto produk', row.img || content.site.logo, value => { row.img = value; });
-      button(details, 'Hapus produk', () => { if (confirm('Hapus produk ' + row.name_id + ' dari daftar?')) { products.rows.splice(products.rows.indexOf(row), 1); changed(); rows(); } });
-    }
-  }
-  search.oninput = rows; rows();
-  button(editor, '+ Tambah produk', () => { const row = Object.fromEntries(products.columns.map(key => [key, ''])); Object.assign(row, { id: 'P-' + Date.now(), name_id: 'Produk baru', price: '0' }); products.rows.unshift(row); search.value = row.id; rows(); list.querySelector('details').open = true; changed(); });
-}
 function renderReview() {
   element('h2', 'Tinjau & terbitkan', editor);
   element('p', 'Periksa perubahan di bawah. Terbitkan menyimpannya ke GitHub; GitHub Pages kemudian memperbarui website. Proses tayang dapat memerlukan beberapa menit.', editor);
-  const diff = [...differences(original, content), ...differences(originalProducts.rows, products.rows, 'produk')];
+  const diff = differences(original, content);
   element('p', diff.length + ' perubahan kolom · ' + uploads.size + ' foto baru', editor, { class: 'pill' });
   for (const entry of diff.slice(0, 150)) {
     const row = element('div', null, editor, { class: 'review-row' }); element('strong', entry.path, row); element('del', entry.before.slice(0, 300), row); element('ins', entry.after.slice(0, 300), row);
@@ -160,7 +135,7 @@ function renderReview() {
   const input = element('input', null, editor, { type: 'file', accept: '.json,application/json', id: 'import-draft', hidden: '' });
   input.onchange = async () => { try {
     if (!input.files[0]) return; if (input.files[0].size > 120 * 1024 * 1024) throw new Error('Draf terlalu besar.');
-    const data = JSON.parse(await input.files[0].text()); validate(data.content, data.products, originalProducts);
+    const data = JSON.parse(await input.files[0].text()); validate(data.content);
     if (!confirm('Ganti draf saat ini dengan isi file impor?')) return;
     // Only import data, never credentials, code, arbitrary repository paths or remote requests.
     const importedUploads = new Map();
@@ -170,26 +145,26 @@ function renderReview() {
       const blob = new Blob([bytes], { type: path.endsWith('.png') ? 'image/png' : path.endsWith('.jpg') ? 'image/jpeg' : 'image/webp' });
       const bitmap = await createImageBitmap(blob); bitmap.close(); importedUploads.set(path, { base64: entry.base64, preview: URL.createObjectURL(blob) });
     }
-    clearUploads(); uploads = importedUploads; content = data.content; products = data.products; changed(); render(); status('Draf diimpor. Periksa perubahan sebelum menerbitkan.');
+    clearUploads(); uploads = importedUploads; content = data.content; changed(); render(); status('Draf diimpor. Periksa perubahan sebelum menerbitkan.');
   } catch (error) { status('Draf gagal diimpor: ' + error.message, true); } };
 }
 function clearUploads() { for (const entry of uploads.values()) URL.revokeObjectURL(entry.preview); uploads.clear(); }
 function exportDraft() {
-  const data = { content, products, uploads: [...uploads].map(([path, value]) => [path, { base64: value.base64 }]) };
+  const data = { content, uploads: [...uploads].map(([path, value]) => [path, { base64: value.base64 }]) };
   const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
   const link = element('a', null, document.body, { href: url, download: 'kurdi-motor-draf.json' }); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   status('Draf diekspor tanpa token. File berisi konten dan foto yang belum diterbitkan.');
 }
 function render() {
   editor.replaceChildren(); document.querySelectorAll('[data-tab]').forEach(el => { if (el.dataset.tab === active) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current'); });
-  ({ site: renderSite, pages: renderPages, gallery: renderGallery, products: renderProducts, review: renderReview })[active]();
+  ({ site: renderSite, pages: renderPages, gallery: renderGallery, review: renderReview })[active]();
 }
 async function load() {
   const ref = await api(REPO + '/git/ref/heads/main'); const commit = await api(REPO + '/git/commits/' + ref.object.sha);
-  const result = await Promise.all([CONTENT, PRODUCTS, ...Object.keys(pageNames)].map(async path => [path, await readFile(path, ref.object.sha)]));
-  const nextFiles = Object.fromEntries(result); const nextContent = JSON.parse(nextFiles[CONTENT].text), nextProducts = parseCSV(nextFiles[PRODUCTS].text);
-  baseHead = ref.object.sha; baseTree = commit.tree.sha; files = nextFiles; content = nextContent; products = nextProducts;
-  original = structuredClone(content); originalProducts = structuredClone(products); clearUploads(); changed();
+  const result = await Promise.all([CONTENT, ...Object.keys(pageNames)].map(async path => [path, await readFile(path, ref.object.sha)]));
+  const nextFiles = Object.fromEntries(result); const nextContent = JSON.parse(nextFiles[CONTENT].text);
+  baseHead = ref.object.sha; baseTree = commit.tree.sha; files = nextFiles; content = nextContent;
+  original = structuredClone(content); clearUploads(); changed();
 }
 function staticPage(source, name) {
   const doc = new DOMParser().parseFromString(source, 'text/html');
@@ -219,14 +194,14 @@ function staticPage(source, name) {
 async function publish() {
   await run(async () => {
     if (pendingUploads) throw new Error('Tunggu sampai foto selesai diproses sebelum menerbitkan.');
-    validate(content, products, originalProducts);
+    validate(content);
     if (!dirty()) return;
     if (!confirm('Terbitkan perubahan ini ke website Kurdi Motor?')) return;
     status('Memeriksa versi terbaru di GitHub…');
     const head = await api(REPO + '/git/ref/heads/main');
     if (head.object.sha !== baseHead) throw new Error('Ada perubahan baru di GitHub sejak panel dibuka. Ekspor draf, muat ulang data, lalu impor draf dan tinjau lagi. Website belum diubah.');
     const tree = [];
-    const documents = { [CONTENT]: JSON.stringify(content, null, 2) + '\n', [PRODUCTS]: writeCSV(products) };
+    const documents = { [CONTENT]: JSON.stringify(content, null, 2) + '\n' };
     for (const name of Object.keys(pageNames)) documents[name] = staticPage(files[name].text, name);
     for (const [path, text] of Object.entries(documents)) {
       if (text === files[path].text) continue;
@@ -237,7 +212,7 @@ async function publish() {
     const commit = await api(REPO + '/git/commits', 'POST', { message: 'feat(content): terbitkan konten dari panel pemilik\n\nSimpan konten dan foto yang ditinjau pemilik dalam satu revisi agar pembaruan website dapat dilacak dan dipulihkan.', tree: createdTree.sha, parents: [baseHead] });
     await api(REPO + '/git/refs/heads/main', 'PATCH', { sha: commit.sha, force: false });
     // A successful ref update means saved. Do not misreport save failure if subsequent reads fail.
-    original = structuredClone(content); originalProducts = structuredClone(products); baseHead = commit.sha; baseTree = createdTree.sha;
+    original = structuredClone(content); baseHead = commit.sha; baseTree = createdTree.sha;
     for (const [path, text] of Object.entries(documents)) files[path] = { text }; clearUploads(); changed(); render();
     status('Berhasil disimpan ke GitHub (' + commit.sha.slice(0, 7) + '). Website sedang diperbarui oleh GitHub Pages; biasanya perlu beberapa menit. Muat ulang halaman website setelah proses selesai.');
     element('a', 'Lihat status penerbitan di GitHub ↗', $('#status'), { href: 'https://github.com/' + OWNER + '/tokokurdimotor.github.io/actions', target: '_blank', rel: 'noopener noreferrer' });
@@ -258,5 +233,5 @@ $('#login-form').onsubmit = event => {
 };
 document.querySelectorAll('[data-tab]').forEach(el => { el.onclick = () => { active = el.dataset.tab; render(); }; });
 $('#review').onclick = () => { active = 'review'; render(); editor.scrollIntoView({ block: 'start' }); };
-$('#logout').onclick = () => { if (dirty() && !confirm('Keluar dan membuang draf yang belum diterbitkan?')) return; token = ''; content = undefined; products = undefined; clearUploads(); editor.replaceChildren(); $('#workspace').hidden = true; $('#login').hidden = false; status('Anda sudah keluar. Token dihapus dari sesi panel.'); };
+$('#logout').onclick = () => { if (dirty() && !confirm('Keluar dan membuang draf yang belum diterbitkan?')) return; token = ''; content = undefined; clearUploads(); editor.replaceChildren(); $('#workspace').hidden = true; $('#login').hidden = false; status('Anda sudah keluar. Token dihapus dari sesi panel.'); };
 window.addEventListener('beforeunload', event => { if (dirty() || busy) { event.preventDefault(); event.returnValue = ''; } });

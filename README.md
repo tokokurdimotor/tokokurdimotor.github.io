@@ -8,7 +8,9 @@ Jalankan `python -m http.server 4173 --bind 127.0.0.1`, lalu buka http://127.0.0
 
 ## Mengubah konten
 
-Pemilik dapat mengelola konten dari HP melalui **https://tokokurdimotor.github.io/admin/**. Lihat [panduan panel pemilik](admin/README.md) untuk login token GitHub, mengganti logo/foto, teks dua bahasa, kontak, dan data produk.
+Pemilik dapat mengelola konten dari HP melalui **https://tokokurdimotor.github.io/admin/**. Lihat [panduan panel pemilik](admin/README.md) untuk login token GitHub, mengganti logo/foto, teks dua bahasa, dan kontak.
+
+Jangan menyimpan data barang, harga, atau ekspor kasir di repositori ini. Repositori publik, sehingga setiap file dapat diunduh siapa saja.
 
 Sumber konten yang dikelola panel adalah `assets/data/site-content.json`; `assets/js/content.js` menerapkannya pada website. Penerbitan melalui panel juga menyelaraskan HTML untuk tampilan tanpa JavaScript. Jika mengedit kode manual, periksa data ini agar konten lama tidak menimpa hasil edit saat halaman dibuka.
 
