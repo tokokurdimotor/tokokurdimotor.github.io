@@ -916,6 +916,13 @@ p {
 .footer-phone .ui-icon {
   width: 16px;
 }
+.footer-phone + .footer-phone {
+  margin-top: 0;
+}
+.footer-phone[hidden],
+.contact-list li[hidden] {
+  display: none;
+}
 .footer-bottom {
   display: flex;
   align-items: center;

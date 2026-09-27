@@ -70,7 +70,7 @@ function photo(parent, label, src, onChange) {
 function renderSite() {
   element('h2', 'Identitas & kontak', editor); element('p', 'Kelola identitas utama yang dipakai di seluruh website.', editor);
   const grid = element('div', null, editor, { class: 'grid' });
-  const labels = { name: 'Nama toko', brandLabel: 'Tulisan merek di header', tagline: 'Tagline di bawah merek', phoneIntl: 'WhatsApp · format 628…', phoneDisplay: 'Nomor yang ditampilkan', hours: 'Jam buka Indonesia', hoursEn: 'Jam buka Inggris', address: 'Alamat lengkap', mapsQuery: 'Lokasi pencarian peta', mapsUrl: 'Tautan Google Maps', mapEmbedUrl: 'URL sematan Google Maps', tiktokUrl: 'Tautan TikTok toko' };
+  const labels = { name: 'Nama toko', brandLabel: 'Tulisan merek di header', tagline: 'Tagline di bawah merek', phoneIntl: 'WhatsApp · format 628…', phoneDisplay: 'Nomor yang ditampilkan', phone2Intl: 'WhatsApp kedua · format 628… (kosongkan untuk menyembunyikan)', phone2Display: 'Nomor kedua yang ditampilkan',hours: 'Jam buka Indonesia', hoursEn: 'Jam buka Inggris', address: 'Alamat lengkap', mapsQuery: 'Lokasi pencarian peta', mapsUrl: 'Tautan Google Maps', mapEmbedUrl: 'URL sematan Google Maps', tiktokUrl: 'Tautan TikTok toko' };
   for (const [key, label] of Object.entries(labels)) field(grid, label, content.site[key], value => { content.site[key] = value; }, { multiline: ['address', 'mapEmbedUrl'].includes(key) });
   photo(editor, 'Logo toko', content.site.logo, value => { content.site.logo = value; });
   element('p', 'Tulisan promosi jam buka di beranda dan versi bahasa Inggris dapat diubah di Konten halaman.', editor, { class: 'hint' });
@@ -182,7 +182,13 @@ function staticPage(source, name) {
   doc.querySelectorAll('[data-cms-text]').forEach(el => { const value = content.texts?.[name]?.[el.dataset.cmsText]; if (typeof value === 'string') el.textContent = value; });
   for (const img of doc.querySelectorAll('[data-cms-image]')) { const image = content.images[name][img.dataset.cmsImage]; if (image) { img.setAttribute('src', image.src); img.removeAttribute('srcset'); img.alt = image.alt; } }
   const grid = doc.querySelector('#galleryGrid'); if (grid) { grid.replaceChildren(); for (const image of content.gallery) { const img = doc.createElement('img'); img.setAttribute('src', image.src); img.alt = image.alt.id; img.loading = 'lazy'; img.width = 1600; img.height = 1200; grid.append(img); } }
-  doc.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => { const url = new URL(link.getAttribute('href')); url.pathname = '/' + content.site.phoneIntl; link.setAttribute('href', url.href); if (link.id === 'phoneText' || link.classList.contains('footer-phone')) link.firstChild.textContent = content.site.phoneDisplay + ' '; });
+  doc.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
+    const second = link.classList.contains('phone-2'), intl = second ? content.site.phone2Intl : content.site.phoneIntl;
+    if (second) (link.closest('li') || link).toggleAttribute('hidden', !intl);
+    if (!intl) return;
+    const url = new URL(link.getAttribute('href')); url.pathname = '/' + intl; link.setAttribute('href', url.href);
+    if (['phoneText', 'phoneText2'].includes(link.id) || link.classList.contains('footer-phone')) link.firstChild.textContent = (second ? content.site.phone2Display : content.site.phoneDisplay) + ' ';
+  });
   doc.querySelectorAll('#addressText, .footer-grid > div:last-child > p').forEach(el => { el.textContent = content.site.address; });
   doc.querySelectorAll('#hoursText,#hoursTextFoot').forEach(el => { el.textContent = content.site.hours; });
   doc.querySelector('#mapBtn')?.setAttribute('href', content.site.mapsUrl); doc.querySelector('#mapFrame')?.setAttribute('src', content.site.mapEmbedUrl);

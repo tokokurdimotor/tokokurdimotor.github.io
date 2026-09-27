@@ -98,11 +98,49 @@ const out = process.env.SCREENSHOT_DIR || "verification";
   await page.waitForFunction(() => document.body.style.overflow === "");
   await page.locator("summary").first().click();
   assert.equal(await page.locator("details").first().getAttribute("open"), "");
-  for (const href of await page
-    .locator('a[href*="wa.me"]')
-    .evaluateAll((els) => els.map((el) => el.href))) {
-    assert.equal(new URL(href).pathname, "/6285731044137");
+  for (const file of [
+    "index.html",
+    "about.html",
+    "gallery.html",
+    "contact.html",
+    "404.html",
+  ]) {
+    // Wait for owner-managed content so its WhatsApp rewrite is covered, not only the static HTML.
+    await page.goto(`${base}/${file}`, { waitUntil: "networkidle" });
+    for (const [href, second] of await page
+      .locator('a[href*="wa.me"]')
+      .evaluateAll((els) =>
+        els.map((el) => [el.href, el.classList.contains("phone-2")]),
+      )) {
+      assert.equal(
+        new URL(href).pathname,
+        second ? "/6285952885933" : "/6285731044137",
+        `${file}: big buttons use the main number, .phone-2 the second`,
+      );
+    }
+    const footer = await page.locator(".footer-grid").innerText();
+    assert.ok(
+      footer.includes("+62 857-3104-4137") &&
+        footer.includes("+62 859-5288-5933"),
+      `${file}: footer shows both WhatsApp numbers`,
+    );
+    if (file === "contact.html")
+      assert.equal(
+        await page.locator("#phoneText2").innerText(),
+        "+62 859-5288-5933",
+      );
   }
+  // Emptying the second number in the owner panel must hide it, not leave a dead link.
+  await page.route("**/assets/data/site-content.json", async (route) => {
+    const response = await route.fetch();
+    const content = await response.json();
+    content.site.phone2Intl = "";
+    await route.fulfill({ response, json: content });
+  });
+  await page.goto(base + "/contact.html", { waitUntil: "networkidle" });
+  assert.equal(await page.locator(".footer-phone.phone-2").isVisible(), false);
+  assert.equal(await page.locator("#phoneText2").isVisible(), false);
+  await page.unroute("**/assets/data/site-content.json");
   await page.goto(base + "/contact.html");
   await page.locator("button[type=submit]").click();
   assert.equal(await page.locator("#formError").isVisible(), true);
@@ -138,6 +176,11 @@ const out = process.env.SCREENSHOT_DIR || "verification";
   assert.ok(
     (await nojs.locator("#waHero").getAttribute("href")).startsWith(
       "https://wa.me/",
+    ),
+  );
+  assert.ok(
+    (await nojs.locator(".footer-grid").innerText()).includes(
+      "+62 859-5288-5933",
     ),
   );
   await nojs.goto(base + "/gallery.html");

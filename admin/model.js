@@ -2,6 +2,9 @@ export const validImage = value => typeof value === 'string' && /^assets\/img\/[
 export function validate(content) {
   if (content.version !== 1) throw new Error('Versi konten tidak dikenal.');
   if (!/^\d{8,15}$/.test(content.site.phoneIntl)) throw new Error('WhatsApp harus 8–15 digit, contoh 6285731044137.');
+  const phone2 = content.site.phone2Intl || '';
+  if (phone2 && !/^\d{8,15}$/.test(phone2)) throw new Error('WhatsApp kedua harus 8–15 digit, contoh 6285952885933, atau dikosongkan.');
+  if (phone2 && !(content.site.phone2Display || '').trim()) throw new Error('Isi nomor kedua yang ditampilkan.');
   if (!content.site.name.trim()) throw new Error('Nama toko wajib diisi.');
   if (!validImage(content.site.logo)) throw new Error('Pilih gambar logo PNG, JPG, atau WebP.');
   const social = new URL(content.site.tiktokUrl);

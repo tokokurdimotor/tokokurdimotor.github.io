@@ -3,6 +3,8 @@ const SITE = {
   name: "TOKO KURDI MOTOR",
   phoneIntl: "6285731044137", // ganti ke nomor WhatsApp (format internasional, tanpa +)
   phoneDisplay: "+62 857-3104-4137", // teks yang ditampilkan
+  phone2Intl: "6285952885933", // WhatsApp kedua, hanya untuk tautan bertanda .phone-2; kosongkan untuk menyembunyikan
+  phone2Display: "+62 859-5288-5933",
   address: "Jl. Raya Babadan, Karangwuni, Demangharjo, Kec. Warureja, Kabupaten Tegal, Jawa Tengah 52183",
   hours: "Buka 24 jam",
   mapsQuery: "Jl. Raya Babadan, Karangwuni, Demangharjo, Kec. Warureja, Kabupaten Tegal, Jawa Tengah 52183", // dipakai untuk embed peta
@@ -281,6 +283,10 @@ function buildWaLink(text = "") {
 function applyContactInfo() {
   const phoneEls = document.querySelectorAll('#phoneText');
   phoneEls.forEach(a => { a.textContent = SITE.phoneDisplay; a.href = buildWaLink(); });
+  document.querySelectorAll('#phoneText2').forEach(a => {
+    (a.closest('li') || a).hidden = !SITE.phone2Intl;
+    a.textContent = SITE.phone2Display; a.href = `https://wa.me/${SITE.phone2Intl}`;
+  });
   const addr = document.getElementById('addressText');
   if (addr) addr.textContent = SITE.address;
   const h1 = document.getElementById('hoursText');

@@ -8,7 +8,7 @@
       if (!response.ok) return;
       const content = await response.json();
       if (content.version !== 1) return;
-      const safeKeys = ['name', 'phoneIntl', 'phoneDisplay', 'address', 'hours', 'hoursEn', 'mapsQuery', 'brandLabel', 'tagline'];
+      const safeKeys = ['name', 'phoneIntl', 'phoneDisplay', 'phone2Intl', 'phone2Display', 'address', 'hours', 'hoursEn', 'mapsQuery', 'brandLabel', 'tagline'];
       for (const key of safeKeys) if (typeof content.site[key] === 'string') SITE[key] = content.site[key];
       for (const key of ['mapsUrl', 'mapEmbedUrl']) {
         try { const url = new URL(content.site[key]); if (url.protocol === 'https:' && /(^|\.)google\.com$|^maps\.app\.goo\.gl$/.test(url.hostname)) SITE[key] = url.href; } catch (_) {}
@@ -32,8 +32,13 @@
         if (image && localImage(value.src) && !image.closest('#galleryGrid')) { image.src = value.src; image.removeAttribute('srcset'); image.alt = value.alt; }
       }
       document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
-        const url = new URL(link.href); url.pathname = '/' + SITE.phoneIntl; link.href = url.href;
-        if (link.classList.contains('footer-phone')) link.firstChild.textContent = SITE.phoneDisplay + ' ';
+        // Links marked .phone-2 show the optional second number; every other WhatsApp link uses the main one.
+        const second = link.classList.contains('phone-2');
+        const intl = second ? SITE.phone2Intl : SITE.phoneIntl;
+        if (second) (link.closest('li') || link).hidden = !intl;
+        if (!intl) return;
+        const url = new URL(link.href); url.pathname = '/' + intl; link.href = url.href;
+        if (link.classList.contains('footer-phone')) link.firstChild.textContent = (second ? SITE.phone2Display : SITE.phoneDisplay) + ' ';
       });
       document.querySelectorAll('.footer-grid > div:last-child > p').forEach(el => { el.textContent = SITE.address; });
       try {
