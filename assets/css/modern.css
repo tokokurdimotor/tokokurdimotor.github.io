@@ -569,61 +569,6 @@ p {
   padding-top: 18px;
   justify-content: space-between;
 }
-.parts-section {
-  background: #ecefe7;
-}
-.parts-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-}
-.part-image {
-  background: white;
-  height: 205px;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  padding: 20px;
-}
-.part-image img {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  transition: transform 0.3s;
-}
-.part-card:hover img {
-  transform: scale(1.05);
-}
-.part-image > span {
-  position: absolute;
-  right: 13px;
-  bottom: 13px;
-  background: var(--paper);
-  border: 1px solid var(--border);
-  width: 33px;
-  height: 33px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-}
-.part-image .ui-icon {
-  width: 16px;
-}
-.part-card h3 {
-  font-size: 17px;
-  margin: 20px 0 6px;
-  letter-spacing: -0.035em;
-}
-.part-card p {
-  font-size: 11px;
-}
-.parts-note {
-  font-size: 11px;
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid #cfd6c9;
-  max-width: 850px;
-}
 .story-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1169,16 +1114,6 @@ p {
   .service-card p {
     font-size: 12px;
   }
-  .parts-grid {
-    gap: 15px;
-  }
-  .part-image {
-    height: 170px;
-    padding: 15px;
-  }
-  .part-card h3 {
-    font-size: 15px;
-  }
   .story-image > img {
     height: 380px;
   }
@@ -1350,26 +1285,6 @@ p {
     max-width: 450px;
     margin-bottom: 24px;
   }
-  .parts-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 25px 14px;
-  }
-  .part-image {
-    height: 170px;
-    padding: 15px;
-  }
-  .part-card h3 {
-    font-size: 15px;
-    margin-top: 15px;
-    line-height: 1.4;
-  }
-  .part-card p {
-    font-size: 10px;
-  }
-  .parts-note {
-    font-size: 10px;
-    margin-top: 27px;
-  }
   .story-grid {
     grid-template-columns: 1fr;
     gap: 37px;
@@ -1520,12 +1435,6 @@ p {
     font-size: 8px;
     gap: 10px;
   }
-  .part-image {
-    height: 145px;
-  }
-  .part-card h3 {
-    font-size: 14px;
-  }
   .brand-lockup strong {
     font-size: 15px;
   }
@@ -1547,8 +1456,7 @@ p {
     transition: none !important;
   }
   .btn:hover,
-  .service-card:hover,
-  .part-card:hover img {
+  .service-card:hover {
     transform: none;
   }
 }

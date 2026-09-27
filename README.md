@@ -21,7 +21,7 @@ Sumber konten yang dikelola panel adalah `assets/data/site-content.json`; `asset
 - Foto WebP di `assets/img/` dioptimalkan dari foto asli yang tetap disimpan.
 - Untuk teks dengan `data-i18n`, perbarui teks HTML dan terjemahan ID/EN.
 
-Desain menggunakan arang, putih hangat, oranye, font Plus Jakarta Sans, dan foto toko asli. Informasi layanan, nomor WhatsApp, alamat, serta riwayat sejak 2008 berasal dari website sebelumnya. Stok dan harga dikonfirmasi melalui WhatsApp; kategori sparepart bukan inventaris langsung.
+Desain menggunakan arang, putih hangat, oranye, font Plus Jakarta Sans, dan foto toko asli. Informasi layanan, nomor WhatsApp, alamat, serta riwayat sejak 2008 berasal dari website sebelumnya. Stok dan harga dikonfirmasi melalui WhatsApp; website sengaja tidak menampilkan produk, foto produk, atau harga.
 
 ## Pemeriksaan
 
