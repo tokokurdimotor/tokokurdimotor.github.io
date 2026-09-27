@@ -931,11 +931,29 @@ p {
   font-size: 10px;
   border-top: 1px solid #ccd4c7;
   padding-block: 17px;
+  /* Keep the social links clear of the fixed WhatsApp button at the bottom of the page. */
+  padding-right: 72px;
 }
 .footer-bottom a {
   min-height: 44px;
   display: flex;
   align-items: center;
+}
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.footer-bottom .social-link {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 18px;
+  border: 1px solid #ccd4c7;
+  border-radius: 999px;
+}
+.footer-bottom .social-link:hover {
+  color: var(--orange-ink);
+  border-color: currentColor;
 }
 .floating-wa {
   position: fixed;
@@ -1361,6 +1379,7 @@ p {
     gap: 5px;
   }
   .footer-bottom {
+    flex-direction: column;
     align-items: flex-start;
     gap: 12px;
     font-size: 9px;
@@ -1368,6 +1387,10 @@ p {
   }
   .footer-bottom a {
     min-height: 30px;
+  }
+  .footer-bottom .social-link {
+    min-height: 40px;
+    font-size: 12px;
   }
   .footer-bottom p {
     max-width: 240px;

@@ -7,8 +7,10 @@ export function validate(content) {
   if (phone2 && !(content.site.phone2Display || '').trim()) throw new Error('Isi nomor kedua yang ditampilkan.');
   if (!content.site.name.trim()) throw new Error('Nama toko wajib diisi.');
   if (!validImage(content.site.logo)) throw new Error('Pilih gambar logo PNG, JPG, atau WebP.');
-  const social = new URL(content.site.tiktokUrl);
-  if (social.protocol !== 'https:' || !/(^|\.)tiktok\.com$/.test(social.hostname)) throw new Error('Tautan TikTok harus HTTPS dari tiktok.com.');
+  for (const [key, name, host] of [['tiktokUrl', 'TikTok', 'tiktok.com'], ['instagramUrl', 'Instagram', 'instagram.com']]) {
+    let social; try { social = new URL(content.site[key]); } catch (_) {}
+    if (social?.protocol !== 'https:' || !(social.hostname === host || social.hostname.endsWith('.' + host))) throw new Error('Tautan ' + name + ' harus HTTPS dari ' + host + '.');
+  }
   for (const key of ['mapsUrl','mapEmbedUrl']) {
     const url = new URL(content.site[key]);
     if (url.protocol !== 'https:' || !/(^|\.)google\.com$|^maps\.app\.goo\.gl$/.test(url.hostname)) throw new Error('Tautan peta harus HTTPS dari Google Maps.');

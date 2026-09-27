@@ -70,7 +70,7 @@ function photo(parent, label, src, onChange) {
 function renderSite() {
   element('h2', 'Identitas & kontak', editor); element('p', 'Kelola identitas utama yang dipakai di seluruh website.', editor);
   const grid = element('div', null, editor, { class: 'grid' });
-  const labels = { name: 'Nama toko', brandLabel: 'Tulisan merek di header', tagline: 'Tagline di bawah merek', phoneIntl: 'WhatsApp · format 628…', phoneDisplay: 'Nomor yang ditampilkan', phone2Intl: 'WhatsApp kedua · format 628… (kosongkan untuk menyembunyikan)', phone2Display: 'Nomor kedua yang ditampilkan',hours: 'Jam buka Indonesia', hoursEn: 'Jam buka Inggris', address: 'Alamat lengkap', mapsQuery: 'Lokasi pencarian peta', mapsUrl: 'Tautan Google Maps', mapEmbedUrl: 'URL sematan Google Maps', tiktokUrl: 'Tautan TikTok toko' };
+  const labels = { name: 'Nama toko', brandLabel: 'Tulisan merek di header', tagline: 'Tagline di bawah merek', phoneIntl: 'WhatsApp · format 628…', phoneDisplay: 'Nomor yang ditampilkan', phone2Intl: 'WhatsApp kedua · format 628… (kosongkan untuk menyembunyikan)', phone2Display: 'Nomor kedua yang ditampilkan',hours: 'Jam buka Indonesia', hoursEn: 'Jam buka Inggris', address: 'Alamat lengkap', mapsQuery: 'Lokasi pencarian peta', mapsUrl: 'Tautan Google Maps', mapEmbedUrl: 'URL sematan Google Maps', tiktokUrl: 'Tautan TikTok toko', instagramUrl: 'Tautan Instagram toko' };
   for (const [key, label] of Object.entries(labels)) field(grid, label, content.site[key], value => { content.site[key] = value; }, { multiline: ['address', 'mapEmbedUrl'].includes(key) });
   photo(editor, 'Logo toko', content.site.logo, value => { content.site.logo = value; });
   element('p', 'Tulisan promosi jam buka di beranda dan versi bahasa Inggris dapat diubah di Konten halaman.', editor, { class: 'hint' });
@@ -193,6 +193,7 @@ function staticPage(source, name) {
   doc.querySelectorAll('#hoursText,#hoursTextFoot').forEach(el => { el.textContent = content.site.hours; });
   doc.querySelector('#mapBtn')?.setAttribute('href', content.site.mapsUrl); doc.querySelector('#mapFrame')?.setAttribute('src', content.site.mapEmbedUrl);
   doc.querySelectorAll('a[href*="tiktok.com/"]').forEach(el => { el.setAttribute('href', content.site.tiktokUrl); });
+  doc.querySelectorAll('a[href*="instagram.com/"]').forEach(el => { el.setAttribute('href', content.site.instagramUrl); });
   // Version the content loader on every publication, independently of workflow timing.
   doc.querySelector('script[src^="assets/js/content.js"]')?.setAttribute('src', 'assets/js/content.js?v=' + Date.now());
   return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML + '\n';

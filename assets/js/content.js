@@ -41,9 +41,9 @@
         if (link.classList.contains('footer-phone')) link.firstChild.textContent = (second ? SITE.phone2Display : SITE.phoneDisplay) + ' ';
       });
       document.querySelectorAll('.footer-grid > div:last-child > p').forEach(el => { el.textContent = SITE.address; });
-      try {
-        const url = new URL(content.site.tiktokUrl);
-        if (url.protocol === 'https:' && /(^|\.)tiktok\.com$/.test(url.hostname)) document.querySelectorAll('a[href*="tiktok.com/"]').forEach(el => { el.href = url.href; });
+      for (const [key, host] of [['tiktokUrl', 'tiktok.com'], ['instagramUrl', 'instagram.com']]) try {
+        const url = new URL(content.site[key]);
+        if (url.protocol === 'https:' && (url.hostname === host || url.hostname.endsWith('.' + host))) document.querySelectorAll(`a[href*="${host}/"]`).forEach(el => { el.href = url.href; });
       } catch (_) {}
       document.dispatchEvent(new Event('content-ready'));
     } catch (_) { /* Keep the complete static website available when offline. */ }

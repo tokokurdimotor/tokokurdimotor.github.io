@@ -129,7 +129,44 @@ const out = process.env.SCREENSHOT_DIR || "verification";
         await page.locator("#phoneText2").innerText(),
         "+62 859-5288-5933",
       );
+    const social = await page
+      .locator(".footer-social a")
+      .evaluateAll((els) =>
+        els.map((el) => [
+          new URL(el.href).hostname,
+          parseFloat(getComputedStyle(el).fontSize),
+        ]),
+      );
+    assert.deepEqual(
+      social.map(([host]) => host),
+      ["www.tiktok.com", "www.instagram.com"],
+      `${file}: TikTok and Instagram links`,
+    );
+    assert.ok(
+      social.every(([, size]) => size >= 12),
+      `${file}: social links are readable`,
+    );
   }
+  for (const [width, height] of [
+    [375, 812],
+    [667, 375],
+    [768, 900],
+    [1024, 900],
+    [1440, 900],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await page.goto(base + "/index.html", { waitUntil: "networkidle" });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const covered = await page.evaluate(() => {
+      const wa = document.querySelector(".floating-wa").getBoundingClientRect();
+      return [...document.querySelectorAll(".footer-social a")].some((a) => {
+        const r = a.getBoundingClientRect();
+        return !(r.right <= wa.left || r.left >= wa.right || r.bottom <= wa.top || r.top >= wa.bottom);
+      });
+    });
+    assert.equal(covered, false, `social links clear of WhatsApp button at ${width}px`);
+  }
+  await page.setViewportSize({ width: 1024, height: 900 });
   // Emptying the second number in the owner panel must hide it, not leave a dead link.
   await page.route("**/assets/data/site-content.json", async (route) => {
     const response = await route.fetch();

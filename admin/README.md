@@ -17,7 +17,7 @@ Tampilan login merupakan file statis yang dapat dibuka pengunjung. Otorisasi per
 
 ## Mengubah website
 
-- **Identitas & kontak:** nama, tulisan merek, tagline, nomor WhatsApp utama (dipakai semua tombol WhatsApp), nomor WhatsApp kedua (hanya di bagian bawah halaman dan kartu Kontak; kosongkan untuk menyembunyikan), alamat, jam buka, Google Maps, dan logo.
+- **Identitas & kontak:** nama, tulisan merek, tagline, nomor WhatsApp utama (dipakai semua tombol WhatsApp), nomor WhatsApp kedua (hanya di bagian bawah halaman dan kartu Kontak; kosongkan untuk menyembunyikan), alamat, jam buka, Google Maps, tautan TikTok dan Instagram, dan logo.
 - **Konten halaman:** judul/deskripsi pencarian, teks Indonesia dan Inggris, teks tambahan, dan foto beranda/tentang. Teks bersama berlaku pada beberapa halaman. Bagian ini mengubah isi, bukan struktur atau desain kode.
 - **Galeri foto:** tambah, ganti, ubah deskripsi, naikkan urutan, atau hapus dari galeri.
 - **Tinjau & terbitkan:** periksa nilai sebelum/sesudah, kemudian tekan Terbitkan. Ini membuat satu commit atomik berisi data, HTML statis, dan gambar baru. GitHub Pages memperbarui website setelah build berhasil; tombol sukses berarti tersimpan di GitHub, bukan konfirmasi selesai tayang.
