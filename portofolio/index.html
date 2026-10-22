@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portofolio Maulana Rifai</title>
+<meta name="description" content="Portofolio Maulana Rifai: aplikasi kasir dan bengkel Toko Kurdi Motor, pembuatan website, dan keahlian.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+/* Layout: header band biru tua senada CV, lalu satu kolom isi (proyek -> galeri -> website -> keahlian) */
+:root {
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --ink: #0F1B2D;
+  --muted: #4A5A6E;
+  --line: #DCE3EC;
+  --band: #16324F;
+  --band-ink: #F1F5F9;
+  --band-muted: #C3CEDB;
+  --accent: #F2B544;
+  --accent-ink: #7A4B00;
+  --accent-soft: #FFF4DB;
+  --chip: #EAF0F6;
+  --display: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  --body: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1624; --surface: #12233A; --ink: #E8EEF5; --muted: #A9B7C8; --line: #233954;
+    --band: #0F2640; --band-ink: #F1F5F9; --band-muted: #A9B7C8;
+    --accent: #F2B544; --accent-ink: #FFD98A; --accent-soft: #3A2C10; --chip: #1B3150;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1624; --surface: #12233A; --ink: #E8EEF5; --muted: #A9B7C8; --line: #233954;
+  --band: #0F2640; --band-ink: #F1F5F9; --band-muted: #A9B7C8;
+  --accent: #F2B544; --accent-ink: #FFD98A; --accent-soft: #3A2C10; --chip: #1B3150;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+.band { background: var(--band); color: var(--band-ink); }
+.band .wrap { padding-block: 56px 48px; display: grid; gap: 18px; }
+.eyebrow { font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 0.16em; color: var(--accent); margin: 0; }
+h1 { font-family: var(--display); font-size: clamp(36px, 7vw, 56px); line-height: 1.05; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.role { margin: 0; font-size: 18px; color: var(--band-muted); }
+.bar { width: 64px; height: 4px; border-radius: 2px; background: var(--accent); }
+.contact { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; color: var(--band-ink); margin: 6px 0 0; padding: 0; list-style: none; }
+.contact li { display: flex; align-items: center; gap: 8px; }
+.contact svg { width: 16px; height: 16px; flex: none; stroke: var(--accent); }
+
+main .wrap { padding-block: 48px 64px; display: grid; gap: 56px; }
+section { display: grid; gap: 20px; min-width: 0; }
+h2 { font-family: var(--display); font-size: 15px; font-weight: 600; letter-spacing: 0.14em; margin: 0; display: flex; align-items: center; gap: 10px; color: var(--ink); }
+h2::before { content: ""; width: 18px; height: 4px; border-radius: 2px; background: var(--accent); }
+h3 { font-family: var(--display); font-size: 24px; line-height: 1.25; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.lead { max-width: 66ch; color: var(--muted); }
+
+.project-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.when { font-size: 13px; font-weight: 600; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; padding: 3px 12px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 2px; }
+.fact b { font-family: var(--display); font-size: 26px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.fact span { font-size: 14px; color: var(--muted); }
+
+.features { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.features li { font-size: 14px; background: var(--chip); color: var(--ink); border-radius: 8px; padding: 6px 12px; }
+
+.gallery { display: grid; gap: 28px; }
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+figure img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #fff; display: block; }
+figcaption { font-size: 14px; color: var(--muted); }
+figcaption b { color: var(--ink); font-weight: 600; }
+
+.sites { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 14px; }
+.site { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 6px; align-content: start; }
+.site h4 { font-family: var(--display); font-size: 17px; margin: 0; }
+.site p { font-size: 15px; color: var(--muted); }
+.site a { font-size: 14px; font-weight: 600; color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.site a:focus-visible, .contact a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.skills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.skills li { font-size: 14px; font-weight: 500; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 12px; }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { padding-block: 20px 28px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <p class="eyebrow">PORTOFOLIO</p>
+    <h1>MAULANA RIFAI</h1>
+    <p class="role">Staf Administrasi · Pembuat Aplikasi Berbasis AI</p>
+    <div class="bar" aria-hidden="true"></div>
+    <ul class="contact">
+      <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg>0858-7500-3917</li>
+      <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>lanapml1604@gmail.com</li>
+      <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>Warureja, Kab. Tegal</li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section aria-labelledby="proyek">
+      <h2 id="proyek">PROYEK UTAMA</h2>
+      <div class="project-head">
+        <h3>Aplikasi Kasir &amp; Bengkel — Toko Kurdi Motor</h3>
+        <span class="when">Mei 2026 – Sekarang</span>
+      </div>
+      <p class="lead">Aplikasi kasir dan bengkel yang saya bangun sendiri dengan bantuan AI Claude dan Codex, dan dipakai setiap hari di toko sparepart & bengkel milik saya di Warureja, Tegal.</p>
+      <div class="facts">
+        <div class="fact"><b>3.200+</b><span>data barang dikelola</span></div>
+        <div class="fact"><b>Server–Client</b><span>beberapa komputer, satu database</span></div>
+        <div class="fact"><b>30+</b><span>pembaruan aplikasi dirilis</span></div>
+      </div>
+      <ul class="features" aria-label="Fitur aplikasi">
+        <li>Kasir &amp; cetak struk</li>
+        <li>Stok &amp; stok opname</li>
+        <li>Pembelian &amp; utang supplier</li>
+        <li>Servis bengkel (work order &amp; estimasi)</li>
+        <li>Laporan &amp; buku kas</li>
+        <li>Hak akses Pemilik / Admin / Kasir</li>
+        <li>Backup otomatis ke Google Drive</li>
+        <li>Update otomatis lewat internet</li>
+      </ul>
+      <div class="gallery">
+        <figure>
+          <img src="img/servis-baru.png" alt="Layar Servis / Work Order Baru: data kendaraan, pekerjaan, sparepart dan ringkasan biaya" width="1600" height="1000" loading="lazy">
+          <figcaption><b>Servis / Work Order Baru</b> — data kendaraan, pekerjaan, sparepart dan total biaya dalam satu layar.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/perbaiki-kesalahan.png" alt="Layar Perbaiki Kesalahan: daftar transaksi kasir dengan tombol koreksi" width="1920" height="1040" loading="lazy">
+          <figcaption><b>Perbaiki Kesalahan</b> — membetulkan salah input kasir dengan riwayat yang tercatat.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/pengaturan.png" alt="Layar Pengaturan: profil toko dan contoh kop struk" width="1920" height="1040" loading="lazy">
+          <figcaption><b>Pengaturan</b> — profil toko, contoh kop struk, jaringan dan backup.</figcaption>
+        </figure>
+      </div>
+      <p class="lead" style="font-size: 14px">Gambar di atas memakai data contoh.</p>
+    </section>
+
+    <section aria-labelledby="website">
+      <h2 id="website">PEMBUATAN WEBSITE</h2>
+      <div class="sites">
+        <article class="site">
+          <h4>Toko Kurdi Motor</h4>
+          <p>Website toko sparepart dan bengkel.</p>
+          <a href="https://tokokurdimotor.github.io" target="_blank" rel="noopener">tokokurdimotor.github.io</a>
+        </article>
+        <article class="site">
+          <h4>Jasa Joki Mobile Legends</h4>
+          <p>Website pemesanan jasa dengan daftar harga per rank.</p>
+        </article>
+        <article class="site">
+          <h4>Restoran</h4>
+          <p>Website profil restoran dan menu.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="keahlian">
+      <h2 id="keahlian">KEAHLIAN</h2>
+      <ul class="skills">
+        <li>Microsoft Excel</li>
+        <li>Microsoft Word</li>
+        <li>Administrasi</li>
+        <li>Claude Code</li>
+        <li>OpenAI Codex</li>
+        <li>JavaScript · React</li>
+        <li>Canva</li>
+        <li>Git &amp; GitHub</li>
+        <li>Google Drive</li>
+        <li>Photo &amp; Video Editing</li>
+        <li>Generative AI (Foto &amp; Video)</li>
+        <li>Otomotif (TKRO)</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Maulana Rifai · Tegal, Jawa Tengah</div>
+</footer>
+</body>
+</html>
